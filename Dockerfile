@@ -1,18 +1,15 @@
-FROM tutum/apache-php:latest
-MAINTAINER Jechiy <773372347@qq.com>
-WORKDIR /
-RUN apt-get update && \
-    apt-get -yq install mysql-client curl && \
-    rm -rf /app && \
-    curl -0L https://dn-downfile.qbox.me/pan2.tar.gz | tar zxv && \
-    mv /blog /app && \
-    rm -rf /var/lib/apt/lists/*
+# Dockerfile to create a docker image
+FROM node
+MAINTAINER Jechiy
 
-RUN sed -i "s/AllowOverride None/AllowOverride All/g" /etc/apache2/apache2.conf
-RUN a2enmod rewrite
+# Add files to the image
+RUN mkdir -p /opt/nodejs
+ADD . /opt/nodejs
+WORKDIR /opt/nodejs
 
-ADD run.sh /run.sh
-RUN chmod +x /*.sh
-
+# Install the dependencies modules
+RUN npm install
+# Expose the container port
 EXPOSE 80
-CMD ["/run.sh"]
+
+ENTRYPOINT ["node", "app.js"]
