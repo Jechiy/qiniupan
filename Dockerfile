@@ -10,6 +10,6 @@ WORKDIR /opt/nodejs
 # Install the dependencies modules
 RUN npm install
 # Expose the container port
-EXPOSE 80 3000 8888
+EXPOSE 80
 
 ENTRYPOINT ["node", "app.js"]
